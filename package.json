@@ -1,0 +1,22 @@
+{
+  "name": "create-plugin-ts",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "consola": "^3.2.3",
+    "growtopia.js": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "tsup": "latest",
+    "typescript": "^5.6.2"
+  }
+}

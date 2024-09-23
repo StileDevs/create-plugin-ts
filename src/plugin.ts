@@ -12,7 +12,7 @@ export class Plugin {
   /**
    * Initialize plugin
    */
-  init(client: Client) {
+  init() {
     this.pluginConf = PluginPackage;
     console.log(`Loaded ${this.pluginConf.name} v${this.pluginConf.version}`);
   }

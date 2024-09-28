@@ -1,23 +1,32 @@
+import { readFileSync } from "fs";
 import { defineConfig, type Options } from "tsup";
-import { readFileSync, existsSync } from "fs";
+
+const packagePlugin = JSON.parse(readFileSync("./package.json", "utf-8"));
 
 let config: Options = {
-  entry: ["src/app.ts"],
-
-  splitting: true,
+  entry: ["src/app.ts", "package.json", "config.json"],
+  outDir: `dist/${packagePlugin.name}`,
+  splitting: false,
   sourcemap: false,
-  target: "node20",
   bundle: true,
+  clean: true,
+  dts: false,
+  target: "node20",
   format: "esm",
-  clean: true
+  loader: {
+    ".key": "copy",
+    ".crt": "copy",
+    ".pem": "copy",
+    ".rttex": "copy",
+    ".json": "copy",
+    ".html": "copy",
+    ".css": "copy",
+    ".js": "copy",
+    ".svg": "copy",
+    ".png": "copy",
+    ".jpg": "copy",
+    ".jpeg": "copy"
+  }
 };
-
-let License = "";
-if (existsSync("./LICENSE")) {
-  License = readFileSync("./LICENSE", "utf-8");
-  config.banner = {
-    js: `/*\n${License}\n*/`
-  };
-}
 
 export default defineConfig(config);

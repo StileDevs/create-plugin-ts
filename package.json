@@ -4,7 +4,8 @@
   "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "test": "tsup && (node test/run.js || (echo Failed to use nodejs, skiping to bunjs instead. && bun run test/run.js))"
   },
   "keywords": [],
   "author": "",

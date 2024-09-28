@@ -1,44 +1,55 @@
 import { TextPacket, Peer, Client } from "growtopia.js";
 import { readFileSync } from "fs";
+import { Logger } from "./core/logger";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
-// This used to identifies your plugins config, e.g plugin name, version, necessary dependencies & etc.
-const PluginPackage = JSON.parse(readFileSync("./package.json", "utf-8"));
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class Plugin {
   public pluginConf: any;
+  public logger: Logger;
+  public requiredPlugins = ["webserver-node"];
+  public plugins: Map<string, any>;
 
-  constructor(public client: Client) {}
+  constructor(public client: Client) {
+    this.pluginConf = JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf-8"));
+    this.logger = new Logger(this.pluginConf);
+    this.plugins = new Map();
+  }
 
   /**
    * Initialize plugin
    */
-  init() {
-    this.pluginConf = PluginPackage;
-    console.log(`Loaded ${this.pluginConf.name} v${this.pluginConf.version}`);
+  async init() {
+    try {
+      // Run your program here
+    } catch (e: any) {
+      this.logger.error(e);
+    }
+  }
+
+  /**
+   * Set a bunch of loaded plugins. This meant for API purposes with other plugin.
+   */
+  setPlugin(name: string, plugin: any) {
+    this.plugins.set(name, plugin);
   }
 
   /**
    * Emitted when client successfully connected to ENet server.
    * Peer state will change into CONNECTED state.
    */
-  onConnect(netID: number) {
-    console.log("Client connected", this.client.cache);
-    const peer = new Peer(this.client, netID);
-    peer.send(TextPacket.from(0x1));
-  }
+  onConnect(netID: number) {}
 
   /**
    * Emitted when client disconnected from the ENet server.
    * Peer state will changed, depends what type of disconnected was used.
    */
-  onDisconnect(netID: number) {
-    console.log("Client disconnected", this.client.cache);
-  }
+  onDisconnect(netID: number) {}
 
   /**
    * Emitted when client sending a bunch of buffer data.
    */
-  onRaw(netID: number, data: Buffer) {
-    console.log(`Received raw data from netID: ${netID}`, data);
-  }
+  onRaw(netID: number, data: Buffer) {}
 }
